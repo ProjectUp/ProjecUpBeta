@@ -11,7 +11,7 @@ const atob = require("atob");
 const btoa = require("btoa");
 const cookieParser = require('cookie-parser');
 const nodemailer=require("nodemailer");
-
+var port=process.env.PORT || 5555;
 
 
 
@@ -340,7 +340,8 @@ app.get("/GetMyProjects",function(req,res){
                             const title=fs.readFileSync("./private/Projects/"+categs+"/"+Subcats+"/"+Folder+"/"+ProjName+"/title.txt").toString("utf8");
                             const desc =fs.readFileSync("./private/Projects/"+categs+"/"+Subcats+"/"+Folder+"/"+ProjName+"/description.txt").toString("utf8");
                             const colabs=fs.readFileSync("./private/Projects/"+categs+"/"+Subcats+"/"+Folder+"/"+ProjName+"/colaborators.txt").toString("utf8");
-                            ObjectToBeSent["Object"+ObjectCount]={tit:title,descr:desc,cols:colabs};
+                            const comments=fs.readFileSync("./private/Projects/"+categs+"/"+Subcats+"/"+Folder+"/"+ProjName+"/comments.txt").toString("utf8");
+                            ObjectToBeSent["Object"+ObjectCount]={tit:title,descr:desc,cols:colabs,coms:comments};
                             ObjectCount++;
                         });//end of third foreach
                     }
@@ -643,28 +644,9 @@ app.post('/ProjectDetails', function(req, res) {
 app.post("/ProjectPics", uploadProjImage.any(), function(req, res) {
     res.send("It's OK");
 });
-/*app.post("/SendMail",function(req,res){
-
- const mailOptions={
- from:"theprojectup@gmail.com",
- to:req.body.Mail,    //req.body.Mail
- subject:req.body.Subj,
- text:req.body.Message
- }
- transporter.sendMail(mailOptions,function(error,info){
- if(error){
- res.send("Error");
- }
- else{
- console.log("Message sent");
- res.send("Done");
- }
-
- });
-
- })*///end of mail sending
 
 
 
 
-http.createServer(app).listen(3333, console.log('Server started'));
+
+http.createServer(app).listen(port, console.log('Server started'));
