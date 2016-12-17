@@ -180,45 +180,49 @@
                 $('#titlealerts').html('').append('<div class="alert alert-danger alert-dismissible"><strong>The Title Must Not Be Empty</strong></div>')
             }
             if (currentTitle && $pics.length) {
-                $.ajax({
-                    url: '/ProjectDetails',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        title: currentTitle,
-                        colabs: currentColabs,
-                        categ: currentCateg,
-                        desc: currentDesc,
-                    }),
-                    success: function (e) {
-                        console.log(e);
-                        if ($pics.length && e !== 'Project already exists') {
-                            $.ajax({
-                                url: '/ProjectPics',
-                                type: 'POST',
-                                processData: false,
-                                contentType: false,
-                                data: formData,
-                                success: function (e) {
-                                    console.log(e);
-                                    window.location.href = "/";
-                                },
-                                error: function (e) {
-                                    console.log(e);
-                                    alert('Something went wrong. Please try again');
-                                    window.location.reload();
-                                }
-                            })
-                        } else if (e === 'Project already exists'){
-                            $('#titlealerts').html('').append('<div class="alert alert-danger alert-dismissible"><strong>Project Already Exists. Please Choose Different Title</strong></div>')
+                if (currentTitle.indexOf("'") >= 0 || currentTitle.indexOf("#") >= 0 || currentTitle.indexOf(".") >= 0 || currentTitle.indexOf(":") >= 0 || currentTitle.indexOf("$") >= 0 || currentTitle.indexOf('\\') >= 0 || currentTitle.indexOf("/") >= 0) {
+                    $('#titlealerts').html('').append('<div class="alert alert-danger alert-dismissible"><strong>You Can\'t Use $, ., \', \\, :, /, # Characters in The Title</strong></div>')
+                } else {
+                    $.ajax({
+                        url: '/ProjectDetails',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            title: currentTitle,
+                            colabs: currentColabs,
+                            categ: currentCateg,
+                            desc: currentDesc,
+                        }),
+                        success: function (e) {
+                            console.log(e);
+                            if ($pics.length && e !== 'Project already exists') {
+                                $.ajax({
+                                    url: '/ProjectPics',
+                                    type: 'POST',
+                                    processData: false,
+                                    contentType: false,
+                                    data: formData,
+                                    success: function (e) {
+                                        console.log(e);
+                                        window.location.href = "/";
+                                    },
+                                    error: function (e) {
+                                        console.log(e);
+                                        alert('Something went wrong. Please try again');
+                                        window.location.reload();
+                                    }
+                                })
+                            } else if (e === 'Project already exists') {
+                                $('#titlealerts').html('').append('<div class="alert alert-danger alert-dismissible"><strong>Project Already Exists. Please Choose Different Title</strong></div>')
+                            }
+                        },
+                        error: function (e) {
+                            console.log(e);
+                            alert('Something went wrong. Please try again');
+                            window.location.reload();
                         }
-                    },
-                    error: function (e) {
-                        console.log(e);
-                        alert('Something went wrong. Please try again');
-                        window.location.reload();
-                    }
-                })
+                    })
+                }
             }
         });
     });
