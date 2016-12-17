@@ -132,7 +132,12 @@
                 const keys = Object.keys(data);
                 if(!$.isEmptyObject(data)) {
                     keys.forEach(function (value, number) {
-                        let comments = data[value].coms.split('chulchul');
+                        let comments;
+                        console.log(data[value]);
+                        if (data[value].coms) {
+                            comments = data[value].coms.split('chulchul');
+                        }
+                       // let comments = data[value].coms.split('chulchul');
                         console.log(comments);
                         console.log(data[value]);
                         $('#projects').append(
@@ -149,11 +154,13 @@
                             ' </div>' +
                             ' </div>'
                         );
-                        comments.forEach(function (comment, index) {
-                            if (comment) {
-                                $('#Comments' + data[value].TheTitle).append('<li style="margin-left: -50px;border:2px solid #ffffff;border-radius:10px;text-align:center;color:#0e8cd2;background-color:#ffffff;font-size: medium">' + comment + '</li><br>')
-                            }
-                        })
+                        if (comments) {
+                            comments.forEach(function (comment, index) {
+                                if (comment) {
+                                    $('#Comments' + data[value].TheTitle).append('<li style="margin-left: -50px;border:2px solid #ffffff;border-radius:10px;text-align:center;color:#0e8cd2;background-color:#ffffff;font-size: medium">' + comment + '</li><br>')
+                                }
+                            })
+                        }
                     });
                 } else {
                     $('body').append('<div class="alert alert-warning"><strong>No Project Yet Upload One!!</strong><br><a href="/projectupload"><span style="color: #0f0f0f">Upload a Project!!</span></a></div>')

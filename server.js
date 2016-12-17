@@ -551,6 +551,16 @@ app.post('/Comment', function (req, res) {
     let categ = req.body.categ;
     let project = req.body.project;
     let comment = req.body.comment;
+    if (categ === 'WebSites') {
+        categ = 'Web Sites';
+    }
+    if (categ.indexOf('MobileApplications') >= 0) {
+        if (categ.substr(19) === 'UsefulApps') {
+            categ = 'Mobile Applications/Useful Apps';
+        } else {
+            categ = 'Mobile Applications/' + TheRequest.substr(19);
+        }
+    }
     fs.appendFile('./private/Projects/' + categ + '/' + project + '/comments.txt', comment + 'chulchul', function (err) {
         if (err) {
             res.statusCode = 500;
