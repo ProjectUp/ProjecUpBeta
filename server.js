@@ -558,7 +558,7 @@ app.post('/Comment', function (req, res) {
         if (categ.substr(19) === 'UsefulApps') {
             categ = 'Mobile Applications/Useful Apps';
         } else {
-            categ = 'Mobile Applications/' + TheRequest.substr(19);
+            categ = 'Mobile Applications/' + categ.substr(19);
         }
     }
     fs.appendFile('./private/Projects/' + categ + '/' + project + '/comments.txt', comment + 'chulchul', function (err) {
