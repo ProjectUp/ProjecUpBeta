@@ -110,7 +110,7 @@
                             '<div id="descr'+number+'" style="display: none;word-wrap: break-word;">' +
                         '<span style="font-size: medium" id="span'+number+'">Description: '+data[value].descr+'</span><br>' +
                         '<span style="font-size: medium">Collaborators: '+data[value].cols+'</span><br>' +
-                            '<ul style="list-style-type: none;text-align:center" id="Comments'+data[value].TheTitle+'"><hr style="margin-left: -50px;border: 3px solid #0e8cd2;border-radius: 3px"><div><span style="margin-left: -50px;font-size: medium ;" >Comments</span></div><br></ul><br>'+ '<div id="Alerts'+data[value].TheTitle+'"></div>'+
+                            '<ul style="list-style-type: none;text-align:center" id="Comments'+data[value].TheTitle.split(' ').join('_')+'"><hr style="margin-left: -50px;border: 3px solid #0e8cd2;border-radius: 3px"><div><span style="margin-left: -50px;font-size: medium ;" >Comments</span></div><br></ul><br>'+ '<div id="Alerts'+data[value].TheTitle+'"></div>'+
                         '<textarea rows="3" cols="50" name="comment" id="Com" class="form-control" placeholder="Type a comment..."></textarea><br>' +
                         '<button class="btn btn-warning" id="'+data[value].user+'/'+data[value].TheTitle+'">Send a Comment</button><br>' +
                         '<br><button class="btn btn-danger" id="button'+number+'">Close</button></div>' +
@@ -137,7 +137,8 @@
                     let comments = data[value].comments.split('chulchul');
                     comments.forEach(function (comment, index) {
                         if (comment) {
-                        $('#Comments' + data[value].TheTitle).append('<li style="margin-left: -50px;border:2px solid #0e8cd2;border-radius:10px;text-align:center;color:white;background-color:#0e8cd2;font-size: medium">' + comment + '</li><br>');
+                            console.log('title', $('#Comments' + data[value].TheTitle));
+                        $('#Comments' + data[value].TheTitle.split(' ').join('_')).append('<li style="margin-left: -50px;border:2px solid #0e8cd2;border-radius:10px;text-align:center;color:white;background-color:#0e8cd2;font-size: medium">' + comment + '</li><br>');
                     }
                     });
                 });
@@ -176,7 +177,7 @@
                             console.log(e);
                             const user = $btn.attr('id').substr($btn.attr('id').indexOf('/') + 1);
                             $btn.siblings('textarea').val('');
-                            $('#Comments' + user).append('<li style="background-color:#0e8cd2;margin-left: -50px;border:2px solid #0e8cd2;border-radius:10px;text-align:center;font-size: medium;color:white">' + comment + '</li><br>')
+                            $('#Comments' + user.split(' ').join('_')).append('<li style="background-color:#0e8cd2;margin-left: -50px;border:2px solid #0e8cd2;border-radius:10px;text-align:center;font-size: medium;color:white">' + comment + '</li><br>')
                         },
                         error: function () {
                             alert('please try again');
